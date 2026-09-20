@@ -1,3 +1,4 @@
 ﻿timestamp	commit	skill	old_score	new_score	status	dimension	note	eval_mode
 2026-09-20T17:36	eefe4d2	tiancan-tudou-perspective	-	77	baseline	-	基线评估: 结构60.8+效果16.1=76.9≈77; 加权短板dim8=6.9>dim5=3.6=dim3=3.6	full_test
 2026-09-20T17:45	7083c3b	tiancan-tudou-perspective	77	sh-3-0	keep	dim8	新增可执行素材库(主打句/补丁/参数清单); 3 judges 全 better/clear	paired
+2026-09-20T17:52	83c956e	tiancan-tudou-perspective	sh	sh-3-0	keep	dim4	运行门控加🔴/STOP checkpoint标记+情绪内核硬门; 2 clear+1 slight	paired
