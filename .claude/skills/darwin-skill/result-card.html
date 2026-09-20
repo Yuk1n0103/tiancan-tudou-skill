@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Darwin.skill · tiancan-tudou-perspective 优化结果卡</title>
+<style>
+  :root { --ink:#fff; --bg:#0d0d0f; --accent:#5ff2a0; --dim:#9aa0a6; --card:#16161a; --line:#26262c; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { background:linear-gradient(180deg,#0a0a0c,#0d0d0f); color:var(--ink); font-family:'Segoe UI',-apple-system,'PingFang SC','Microsoft YaHei',monospace; min-height:100vh; }
+  .scanline { position:fixed; inset:0; pointer-events:none; background:repeating-linear-gradient(0deg,transparent 0 2px,rgba(255,255,255,.02) 2px 3px); z-index:1; }
+  .wrap { max-width:860px; margin:0 auto; padding:48px 32px 64px; position:relative; z-index:2; }
+  .brand { font-size:12px; letter-spacing:2px; color:var(--dim); text-transform:uppercase; margin-bottom:8px; }
+  .brand span { color:var(--accent); }
+  h1 { font-size:26px; font-weight:700; margin-bottom:4px; }
+  .skill { color:var(--dim); font-size:14px; margin-bottom:28px; }
+  .score-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px; margin-bottom:30px; }
+  .score-card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:20px 18px; }
+  .score-card .label { font-size:12px; color:var(--dim); }
+  .score-card .val { font-size:36px; font-weight:800; margin-top:6px; }
+  .score-card .delta { font-size:14px; margin-top:4px; }
+  .up { color:var(--accent); }
+  section { margin-top:28px; }
+  h2 { font-size:16px; font-weight:700; margin-bottom:14px; border-left:3px solid var(--accent); padding-left:10px; }
+  table { width:100%; border-collapse:collapse; font-size:13px; }
+  th,td { text-align:left; padding:10px 12px; border-bottom:1px solid var(--line); }
+  th { color:var(--dim); font-weight:600; font-size:12px; }
+  .tag { display:inline-block; font-size:11px; padding:2px 8px; border-radius:20px; background:rgba(95,242,160,.12); color:var(--accent); border:1px solid rgba(95,242,160,.3); margin-right:6px; }
+  .improve-item { padding:12px 0; border-bottom:1px dashed var(--line); font-size:14px; line-height:1.7; }
+  .improve-item b { color:var(--accent); }
+  .foot { margin-top:48px; font-size:12px; color:var(--dim); text-align:center; letter-spacing:1px; }
+  .foot em { color:var(--accent); font-style:normal; }
+  .bar-row { display:flex; align-items:center; gap:12px; font-size:13px; margin-bottom:10px; }
+  .bar-row .n { width:90px; color:var(--dim); }
+  .bar { flex:1; background:var(--line); height:16px; border-radius:8px; overflow:hidden; }
+  .bar i { display:block; height:100%; background:linear-gradient(90deg,#2d6a4f,var(--accent)); }
+  .bar-row .pct { width:40px; text-align:right; }
+  @media(max-width:640px){ .score-grid{grid-template-columns:1fr;} .bar-row .n{width:80px;} }
+</style>
+</head>
+<body>
+<div class="scanline"></div>
+<div class="wrap">
+  <div class="brand">Darwin.skill 2.0 · Traine your skills like you train your models</div>
+  <h1>tiancan-tudou-perspective</h1>
+  <div class="skill">天蚕土豆 · 写作风格 skill ｜ 达尔文自优化 ｜ 2026-09-20</div>
+
+  <div class="score-grid">
+    <div class="score-card">
+      <div class="label">基线（Baseline）</div>
+      <div class="val">77</div>
+      <div class="delta up">9 维 rubric + 独立 judge 实测</div>
+    </div>
+    <div class="score-card">
+      <div class="label">优化后估值</div>
+      <div class="val up">~85</div>
+      <div class="delta up">估 +8 · 3 轮全保留 0 回滚</div>
+    </div>
+    <div class="score-card">
+      <div class="label">实验批次</div>
+      <div class="val">9</div>
+      <div class="delta">3 rounds × 3 paired judges</div>
+    </div>
+  </div>
+
+  <section>
+    <h2>三 轮 改 进（独立 judge 奇数多数决验收）</h2>
+    <table>
+      <tr><th>Commit</th><th>维度</th><th>改动</th><th>验收</th></tr>
+      <tr><td>7083c3b</td><td><span class="tag">dim8 实测</span></td><td>新增可执行素材库：主打句三档模板 / 改稿替换补丁 / 借鉴参数清单</td><td>3-0 better / clear</td></tr>
+      <tr><td>83c956e</td><td><span class="tag">dim4 检查点</span></td><td>Step0 门控加显性 🔴/🛑/⚠️ 标记 + 情绪内核硬门</td><td>2 clear + 1 slight / better</td></tr>
+      <tr><td>f842e86</td><td><span class="tag">dim3 失败模式</span></td><td>研究步骤加 if-then 失败回退表（四场景）</td><td>2 clear + 1 slight / better</td></tr>
+    </table>
+  </section>
+
+  <section>
+    <h2>分 维 度 变 化</h2>
+    <div class="bar-row"><div class="n">dim8 实测</div><div class="bar"><i style="width:70%"></i></div><div class="pct">70→85</div></div>
+    <div class="bar-row"><div class="n">dim4 检查点</div><div class="bar"><i style="width:50%"></i></div><div class="pct">50→80</div></div>
+    <div class="bar-row"><div class="n">dim3 失败模式</div><div class="bar"><i style="width:70%"></i></div><div class="pct">70→82</div></div>
+    <div class="bar-row"><div class="n">dim5 具体性</div><div class="bar"><i style="width:80%"></i></div><div class="pct">80→88</div></div>
+  </section>
+
+  <section>
+    <h2>主 要 改 进</h2>
+    <div class="improve-item"><b>1 · 可执行素材库（dim8 杠杆最大）</b>——把抽象"给配方"落成 <code>填变量即用</code> 的三档主打句模板 + 诊断缺失项的替换补丁段 + 借鉴类回答的参数清单，judge 实测 3 prompt 一致提升。</div>
+    <div class="improve-item"><b>2 · 显性 checkpoint 门控（dim4）</b>——HL-1 视觉标记杠杆：Step0 加 🔴 GATE / 🛑 STOP·不编造 / ⚠️ 纠偏 + 末尾 🛑 CHECKPOINT 汇总门，并把"情绪内核没到位不许出"设为硬阻断。</div>
+    <div class="improve-item"><b>3 · 失败回退表（dim3）</b>——补上"工具/研究/解析失败"的操作层恢复路径（gate 只管检测、不管处置），每场景给一线修复 + 兜底两级。</div>
+  </section>
+
+  <section>
+    <h2>反 模 式 守 门</h2>
+    <div class="improve-item">✅ // 全程独立 paired judge（同一 judge 一次读改前+改后），<b>绝不用绝对总分 delta 当棘轮</b><br>
+    ✅ // 回滚用 <code>git revert</code> 而非 reset --hard（本项目 0 revert，无触发）<br>
+    ✅ // 每轮只改 1 个维度，分数升降可归因；3 轮见好就收（HL-4），未为凑分增冗余<br>
+    ✅ // dim8 用真实 full_test（独立 judge 跑 3 测试 prompt），非 dry_run</div>
+  </section>
+
+  <div class="foot">Darwin.skill — Train your skills like you train your models · <em>github.com/alchaincyf/darwin-skill</em></div>
+</div>
+</body>
+</html>
